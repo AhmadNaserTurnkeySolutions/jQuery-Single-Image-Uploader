@@ -31,6 +31,7 @@
 <body>
 
 
+
 <div class="container">
     <div class="page-header">
         <h1>jQuery Image Uploader Demo</h1>
@@ -49,7 +50,7 @@
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
+                    <input  type="file" name="files[]" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon-upload icon-white"></i>
@@ -88,10 +89,23 @@
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
+
+
+{% for (var i=0, file; file=o.files[i]; i++) {
+
+
+ %}
+ 
+ 		<?php //ob_start(); ?>
+		<!--{%=o.files[0].name%}-->
+<?php //$sright=ob_get_clean();?>
+
+<!--<h1 style="background:red;width:300px;height:300px;" ><?php echo $sright;?></h1>-->
+
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="name"><span id="theNameOfthefile">{%=file.name%}</span></td>
+
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
@@ -116,6 +130,7 @@
         {% } %}</td>
     </tr>
 {% } %}
+
 </script>
 
 
@@ -176,5 +191,15 @@
 <script src="js/main.js"></script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+<script>
+$('#fileupload').bind('fileuploadadded', function (e, data) {
+$.each(data.files, function (index, file) {
+alert('filename: ' + file.name + '\n');
+});
+});
+</script>
+
+
 </body> 
 </html>
