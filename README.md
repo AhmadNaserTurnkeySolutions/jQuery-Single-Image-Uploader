@@ -11,6 +11,7 @@ jquery.fileupload-ui.js
 
             autoUpload: true
             maxNumberOfFiles: 1
+             url: 'server/php/' in main.js
 			
 			and any related limits for the uploading process in the scripts , just the attributes
 			
