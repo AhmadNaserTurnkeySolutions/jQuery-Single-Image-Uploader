@@ -11,7 +11,8 @@
 
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global define, window, URL, webkitURL, FileReader */
-
+var DTTT=null;
+var D_data=null;
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -181,6 +182,7 @@
                     }
                     template = that._renderDownload(files)
                         .appendTo(that.options.filesContainer);
+						
                     that._forceReflow(template);
                     deferred = that._addFinishedDeferreds();
                     that._transition(template).done(
@@ -192,7 +194,9 @@
                         }
                     );
                 }
-            },
+            DTTT=template;
+		
+			},
             // Callback for failed (abort or error) uploads:
             fail: function (e, data) {
                 var that = $(this).data('fileupload'),
@@ -350,6 +354,7 @@
 
         _getFilesFromResponse: function (data) {
             if (data.result && $.isArray(data.result.files)) {
+				D_data=data;
                 return data.result.files;
             }
             return [];
@@ -561,6 +566,7 @@
             var button = $(e.currentTarget),
                 template = button.closest('.template-upload'),
                 data = template.data('data');
+				
             if (data && data.submit && !data.jqXHR && data.submit()) {
                 button.prop('disabled', true);
             }
@@ -698,12 +704,14 @@
                 }
                 if (options.downloadTemplateId) {
                     options.downloadTemplate = tmpl(options.downloadTemplateId);
+					//DTTT=options.downloadTemplate;
                 }
             }
         },
 
         _initFilesContainer: function () {
             var options = this.options;
+			//DTTT=options;
             if (options.filesContainer === undefined) {
                 options.filesContainer = this.element.find('.files');
             } else if (!(options.filesContainer instanceof $)) {

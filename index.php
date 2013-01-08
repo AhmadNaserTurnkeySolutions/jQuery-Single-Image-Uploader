@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
 <!-- Force latest IE rendering engine or ChromeFrame if installed -->
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
 <meta charset="utf-8">
@@ -25,6 +26,52 @@
 <noscript><link rel="stylesheet" href="css/jquery.fileupload-ui-noscript.css"></noscript>
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+
+
+
+
+
+
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="js/vendor/jquery.ui.widget.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="JavaScript-Templates/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="JavaScript-Load-Image/load-image.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
+<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
+<script src="cdn-gh-pages/js/bootstrap.min.js"></script>
+<script src="Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="js/jquery.fileupload.js"></script>
+<!-- The File Upload file processing plugin -->
+<script src="js/jquery.fileupload-fp.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="js/jquery.fileupload-ui.js"></script>
+<!-- The main application script -->
+<script src="js/main.js"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
+<!--[if gte IE 8]><script src="js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+
+
+
+
+
+
+
+
+
+
 </head>
 
 
@@ -40,7 +87,7 @@
 
     <br>
     <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="server/php/" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
         <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -93,14 +140,12 @@
 
 {% for (var i=0, file; file=o.files[i]; i++) {
 
+ 		<?php ob_start(); ?>
+		{%=o.files[0].url%}
+<?php $sright=ob_get_clean();?>
 
  %}
  
- 		<?php //ob_start(); ?>
-		<!--{%=o.files[0].name%}-->
-<?php //$sright=ob_get_clean();?>
-
-<!--<h1 style="background:red;width:300px;height:300px;" ><?php echo $sright;?></h1>-->
 
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>
@@ -137,19 +182,27 @@
 
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
+{% for (var i=0, file; file=o.files[i]; i++) {
+
+ 		<?php ob_start(); ?>
+		{%=o.files[0].url%}
+<?php $sright=ob_get_clean();?>
+
+ %}
     <tr class="template-download fade">
-        {% if (file.error) { %}
+        {% if (file.error) {
+
+		%}
             <td></td>
             <td class="name"><span>{%=file.name%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
             <td class="preview">{% if (file.thumbnail_url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+                <a  href="{%=file.url%}" title="{%=file.name%}" data-gallery="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
             {% } %}</td>
             <td class="name">
-                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                <a  href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td colspan="2"></td>
@@ -167,39 +220,50 @@
 
 
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="JavaScript-Templates/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="JavaScript-Load-Image/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="cdn-gh-pages/js/bootstrap.min.js"></script>
-<script src="Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/jquery.fileupload.js"></script>
-<!-- The File Upload file processing plugin -->
-<script src="js/jquery.fileupload-fp.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="js/jquery.fileupload-ui.js"></script>
-<!-- The main application script -->
-<script src="js/main.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
-<!--[if gte IE 8]><script src="js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+<a href="#" id="ololo">aaaaaaaa</a>
 
 <script>
-$('#fileupload').bind('fileuploadadded', function (e, data) {
-$.each(data.files, function (index, file) {
-alert('filename: ' + file.name + '\n');
+$('#fileupload')
+       .bind('fileuploaddestroy', function (e, data) {
+           // Code to run when all files have been uploaded
+		 //  alert($('.name:eq(1)').html());
+		 var TheData = null;//   DTTT,
+
+
+	$('#TestArea').val("");       
+
+       });
+
+$("#ololo").click(function() {
+ 
+ // alert("Handler for .click() called.");
 });
+
+   $('#fileupload')
+       .bind('fileuploadstop', function (e, data) {
+           // Code to run when all files have been uploaded
+		 //  alert($('.name:eq(1)').html());
+		 var TheData = D_data;//   DTTT,
+var ANS_url=TheData.result.files[0].url;
+var ANS_thumbnail_url=TheData.result.files[0].thumbnail_url;
+var ANS_delete_url=TheData.result.files[0].delete_url;
+var ANS_name=TheData.result.files[0]=TheData.result.files[0].name;
+
+
+
+
+	$('#TestArea').val(ANS_name+"\n"+ ANS_url+"\n"+ ANS_thumbnail_url+"\n"+ ANS_delete_url);       
+		   console.log(TheData.result.files[0]);
+		   //console.log(obj[index[1]]);
+	
+       });
+
+$("#ololo").click(function() {
+ 
+ // alert("Handler for .click() called.");
 });
 </script>
-
-
+<textarea id="TestArea" style="background:red;width:300px;height:300px;" ></textarea>
 </body> 
 </html>

@@ -13,6 +13,7 @@
 class UploadHandler
 {
     protected $options;
+	public $prop1="";
     // PHP File Upload error message codes:
     // http://php.net/manual/en/features.file-upload.errors.php
     protected $error_messages = array(
@@ -34,11 +35,12 @@ class UploadHandler
         'min_height' => 'Image requires a minimum height'
     );
 
-    function __construct($options = null, $initialize = true) {
+    function __construct($options = null, $initialize = true,$x) {
+	$this->prop1 = $x;
         $this->options = array(
             'script_url' => $this->get_full_url().'/',
-            'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/',
-            'upload_url' => $this->get_full_url().'/files/',
+            'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/'.$this->getPath(),
+            'upload_url' => $this->get_full_url().'/files/'.$this->getPath(),
             'user_dirs' => false,
             'mkdir_mode' => 0755,
             'param_name' => 'files',
@@ -105,7 +107,12 @@ class UploadHandler
                     'max_height' => 80
                 )
             )
-        );
+       
+
+
+
+
+	   );
         if ($options) {
             $this->options = array_merge($this->options, $options);
         }
@@ -760,5 +767,9 @@ class UploadHandler
         }
         return $this->generate_response(array('success' => $success), $print_response);
     }
+public function getPath() 
+{
 
+return $this->prop1;
+}
 }
